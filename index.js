@@ -110,7 +110,7 @@ module.exports = {
         for (i = 0; i < l; i++) {
             withinCircle = this.point(latLng, overlaps[i]);
             if(!withinCircle){
-                return this.randomPointCirclesCollection();
+                return this.randomPointInCirclesCollection();
             }
         }
         return latLng

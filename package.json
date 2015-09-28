@@ -1,0 +1,33 @@
+{
+  "name": "random-circles",
+  "version": "1.0.0",
+  "description": "Finds a random point inside a circle(s).",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttollers/RandomCircles.git"
+  },
+  "keywords": [
+    "Google",
+    "Maps",
+    "Random",
+    "Random",
+    "Circles"
+  ],
+  "author": "Tom Tollinton <tomtollinton@hotmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ttollers/RandomCircles/issues"
+  },
+  "homepage": "https://github.com/ttollers/RandomCircles#readme",
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3"
+  },
+  "dependencies": {
+    "geolib": "^2.0.18"
+  }
+}

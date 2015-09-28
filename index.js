@@ -17,8 +17,10 @@ module.exports = {
         var i, l;
         l = array.length;
         for(i=0;i < l; i++){
-            if(array[i].lat && !array[i].latitude){
+            if(array[i].lat){
                 array[i].latitude = array[i].lat;
+            }
+            if(array[i].lng){
                 array[i].longitude = array[i].lng;
             }
         }
@@ -99,12 +101,10 @@ module.exports = {
 
     // creates a random position within a set of circles
     randomPointInCirclesCollection : function() {
-
-        var latLng = this.randomPointInCircle(this.collection[0]);
-        var overlaps = this.overlappingCircles();
-        var withinCircle;
-        var i;
-        var l = overlaps.length;
+        var latLng, overlaps, withinCircle, i, l;
+        latLng = this.randomPointInCircle(this.collection[0]);
+        overlaps = this.overlappingCircles();
+        l = overlaps.length;
 
         // creates an array of the distances between each 
         for (i = 0; i < l; i++) {

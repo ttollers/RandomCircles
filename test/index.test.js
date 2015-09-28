@@ -1,4 +1,6 @@
 
+"use strict";
+
 var expect = require('chai').expect,
 	Random = require('../index');
 
@@ -25,20 +27,14 @@ describe("Random Circles", function(){
 		it("Sets the array containing circle objects", function(){
 			Random.setCollection([
 				{
-					latitude : 52,
-					longitude : 1
+					lat : 52,
+					lng : 1
 				}
 			]);
 
 			expect(Random.collection).to.be.an('array');
 			expect(Random.collection.length).to.equal(1);
-		});
-	});
-
-	describe("length()", function(){
-		it("returns length of collection", function(){
-			var value = Random.length();
-			expect(value).to.equal(2);
+			expect(Random.collection[0].latitude).to.equal(52);
 		});
 	});
 

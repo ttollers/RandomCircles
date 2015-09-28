@@ -14,11 +14,18 @@ module.exports = {
     collection : [],
 
     setCollection : function(array){
+        var i, l;
+        l = array.length;
+        for(i=0;i < l; i++){
+            if(array[i].lat && !array[i].latitude){
+                array[i].latitude = array[i].lat;
+                array[i].longitude = array[i].lng;
+            }
+        }
         this.collection = array;
-    },
-
-    length : function(){
-        return this.collection.length;
+        this.collection.sort(function(a, b) {
+            return parseFloat(a.price) - parseFloat(b.price);
+        });
     },
 
     circlesOverlap : function(i,n){
@@ -41,7 +48,7 @@ module.exports = {
     
     overlappingCircles : function(){
         var i, n, overlap, overlaps = [];
-        var l = this.length();
+        var l = this.collection.length;
         for (i = 1; i < l; i++)
         {
             overlap = this.circlesOverlap(0,i);

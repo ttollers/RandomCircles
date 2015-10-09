@@ -3,10 +3,11 @@
 Creates a random point inside a circle or group of overlapping circles.
 
 ## Installation
-
+````
 npm install random-circles --save
-var Random = require('random-circles');
 
+var Random = require('random-circles');
+````
 RandomCircles is built on top of Geolib. Geolib is the only dependency.
 
 ## Circle Object
@@ -46,7 +47,7 @@ Random.setCollection([
 
 You can then call the random function as follows:
 ````
-var randomPositionInCircleArray = Random.randomPointInCirclesCollection();
+var random_position_in_circle_array = Random.randomPointInCirclesCollection();
 ````
 This will return a latitude longitude object:
 

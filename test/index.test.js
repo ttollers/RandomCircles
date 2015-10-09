@@ -28,13 +28,15 @@ describe("Random Circles", function(){
 			Random.setCollection([
 				{
 					lat : 52,
-					lng : 1
+					lng : 1,
+					id : 50
 				}
 			]);
 
 			expect(Random.collection).to.be.an('array');
 			expect(Random.collection.length).to.equal(1);
 			expect(Random.collection[0].latitude).to.equal(52);
+			expect(Random.collection[0].rad).to.equal(50);
 		});
 	});
 

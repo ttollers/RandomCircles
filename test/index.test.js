@@ -2,7 +2,7 @@
 "use strict";
 
 var expect = require('chai').expect,
-	Random = require('../index');
+	Random = require('../src/index');
 
 describe("Random Circles", function(){
 

@@ -5,7 +5,6 @@ Creates a random point inside a circle or group of overlapping circles.
 ## Installation
 ````
 npm install random-circles --save
-
 var Random = require('random-circles');
 ````
 RandomCircles is built on top of Geolib. Geolib is the only dependency.

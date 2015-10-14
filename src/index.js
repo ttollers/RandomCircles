@@ -2,17 +2,35 @@
 "use strict";
 
 // ----------------------------------------------------------------------------
-// imports
+// Requires Geolib
+// 
+// It actually works very well (with a few minor modifcations) with the google 
+// maps geometry library. However this is very difficult to test and more coupling
+// to google maps
+// 
+// TODO allow support for both Geolib AND google maps geometry library.
 //
 var Geo = require('geolib') || null;
 
 // ----------------------------------------------------------------------------
-// random location within OVERLAPPING circles generator
+// Random point in overlapping circles
 //
 module.exports = {
 
     collection : [],
 
+    /*
+     *
+     * Setting the collection seperately dramtically improves the speed if more than 
+     * one random point is require. 
+     *
+     * This function allows for differences in the naming of the lat, lng and rad 
+     * properites. 
+     *
+     * It also orders the array by radius which is a crucial. For this reason, do not 
+     * set the collection directly.
+     * 
+     */
     setCollection : function(array){
         var i, l;
         l = array.length;
@@ -37,6 +55,14 @@ module.exports = {
         });
     },
 
+    /*
+     *
+     * Checks whether 2 circles overlap. 
+     * Returns false if they DON'T overlap.
+     * Returns true if the smaller circle is inside the larger with no overlap
+     * Otherwise returns the larger circle
+     * 
+     */
     circlesOverlap : function(i,n){
         var distance, maxDistance, overlapDistance;
         distance = Geo.getDistance(this.collection[i],this.collection[n]);
@@ -55,6 +81,15 @@ module.exports = {
         }
     },
     
+    /*
+     *
+     * Uses the above function to cycle through a an array of circles and find the
+     * ones that overlap.
+     *
+     * If 2 circles don't overlap AND the smaller one is not inside it, returns false 
+     * as cannot find a random point inside two seperate circles.
+     * 
+     */
     overlappingCircles : function(){
         var i, n, overlap, overlaps = [];
         var l = this.collection.length;
@@ -70,22 +105,41 @@ module.exports = {
         return overlaps;
     },
 
-    // get north west and south east bounds
+    /*
+     *
+     * Returns the square shaped bounds of a circle 
+     * 
+     */
     bounds : function(circle){
         return Geo.getBoundsOfDistance(circle, circle.rad);
     },
 
-    // random number within min and max
+    /*
+     *
+     * Returns a random floating point number
+     *
+     * TBR to take into account changes in longitude
+     * 
+     */
     random : function(min, max){
         return Math.random() * (max - min) + min;
     },
 
-    // checks to see if point is within circle. returns true if INSIDE circle
+    /*
+     *
+     * checks to see if point is within circle. returns true if INSIDE circle
+     * 
+     */
     point : function(point, circle){
         return Geo.isPointInCircle(point, circle, circle.rad);
     },
 
-    // finds a random point within BOUNDS of a cirlce
+    /*
+     *
+     * finds a random point within BOUNDS of a cirlce. At this point, we do not know
+     * if point is within the circle as the random point could be near the corners.
+     * 
+     */
     circle : function(circle){
         var r_lat, r_lng, bounds
         bounds = this.bounds(circle);
@@ -97,7 +151,11 @@ module.exports = {
         };
     },
 
-    // finds the random point within circle bounds and verifies it is within a circle
+    /*
+     *
+     * finds the random point within circle bounds and verifies it is within a circle
+     * 
+     */
     randomPointInCircle : function(circle){
         var point = false;
         while(!point || !this.point(point, circle)){
@@ -106,7 +164,12 @@ module.exports = {
         return point;
     },
 
-    // creates a random position within a set of circles
+    /*
+     *
+     * Finds a random point inside an array of circle. The collection must be set before this
+     * funtion can be called.
+     * 
+     */
     randomPointInCirclesCollection : function() {
         var latLng, overlaps, withinCircle, i, l;
         latLng = this.randomPointInCircle(this.collection[0]);

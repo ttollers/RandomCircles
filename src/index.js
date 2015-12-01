@@ -10,7 +10,7 @@
 // 
 // TODO allow support for both Geolib AND google maps geometry library.
 //
-var Geo = require('geolib') || null;
+var Geo = require('geolib');
 
 // ----------------------------------------------------------------------------
 // Random point in overlapping circles

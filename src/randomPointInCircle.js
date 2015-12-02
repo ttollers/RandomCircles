@@ -18,7 +18,7 @@ var Geo = require('geolib');
  * 
  */
 function getBounds(circle){
-    return Geo.getBoundsOfDistance(circle, circle.rad);
+    return Geo.getBoundsOfDistance(circle, circle.radius);
 };
 
 /*
@@ -38,7 +38,7 @@ function random(min, max){
  * 
  */
 function point(point, circle){
-    return Geo.isPointInCircle(point, circle, circle.rad);
+    return Geo.isPointInCircle(point, circle, circle.radius);
 };
 
 /*

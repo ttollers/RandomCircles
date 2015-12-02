@@ -9,7 +9,7 @@ describe("Random point within a circle", function(){
 	var circle = {
 		latitude : 53,
 		longitude : -2.6,
-		rad : 5000
+		radius : 5000
 	};
 
 

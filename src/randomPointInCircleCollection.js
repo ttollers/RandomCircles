@@ -12,7 +12,7 @@
 //
 var Geo = require('geolib');
 
-var rpic = rquire('./randomPointInCircleCollection');
+var rpic = require('./randomPointInCircle');
 
 /*
  *
@@ -26,28 +26,20 @@ var rpic = rquire('./randomPointInCircleCollection');
  * set the collection directly.
  * 
  */
-function setCollection(array){
-    var i, l;
-    l = array.length;
-    for(i=0;i < l; i++){
-        if(array[i].lat){
-            array[i].latitude = array[i].lat;
-        }
-        if(array[i].lng){
-            array[i].longitude = array[i].lng;
-        }
-        if(!array[i].rad){
-            if(array[i].radius){
-                array[i].rad = array[i].radius;
-            } else if(array[i].id){
-                array[i].rad = array[i].id;
-            }
-        }
-    }
-    return array.sort(function(a, b) {
-        return parseFloat(a.price) - parseFloat(b.price);
+function sortCollection(circles){
+    return circles.sort(function(a, b) {
+        return parseFloat(a.radius) - parseFloat(b.radius);
     });
 };
+
+/*
+ *
+ * Filter through circles array to remove redundant circles (i.e. circles that DON'T overlap)
+ * 
+ */
+function filterRedundant(circles) {
+    return circles.filter(circle => circlesOverlap(circles[0], circle));
+}
 
 /*
  *
@@ -57,46 +49,29 @@ function setCollection(array){
  * Otherwise returns the larger circle
  * 
  */
-function circlesOverlap(i,n){
+function circlesOverlap(circle1, circle2){
     var distance, maxDistance, overlapDistance;
-    distance = Geo.getDistance(this.collection[i],this.collection[n]);
+    distance = Geo.getDistance(circle1,circle2);
 
-    maxDistance = this.collection[i].rad + this.collection[n].rad;
-    overlapDistance = Math.abs(this.collection[i].rad - this.collection[n].rad);
+    maxDistance = circle1.radius + circle2.radius;
+    overlapDistance = Math.abs(circle1.radius - circle2.radius);
 
-    if (distance > maxDistance) {
-        return false;
-    }
-    else if ((distance > overlapDistance) && (i === 0)) {
-        return this.collection[n];
-    }
-    else {
+    if (distance >= overlapDistance && distance <= maxDistance) {
         return true;
+    } else {
+        // we do not need this circle as it does not overlap with the smallest (either it is completely outside or the smaller is direcrtly within - think concentric)
+        return false;
     }
 };
 
 /*
  *
- * Uses the above function to cycle through a an array of circles and find the
- * ones that overlap.
- *
- * If 2 circles don't overlap AND the smaller one is not inside it, returns false 
- * as cannot find a random point inside two seperate circles.
+ * TBR - filters and sorts the array to prepare data
  * 
  */
-function overlappingCircles(circles){
-    var i, n, overlap, overlaps = [];
-    var l = circles.length;
-    for (i = 1; i < l; i++)
-    {
-        overlap = circlesOverlap(0,i);
-        if(typeof overlap === "object"){
-            overlaps.push(overlap);
-        } else if(!overlap){
-            return false;
-        }
-    }
-    return overlaps;
+function sortAndFilter(circles){
+    var sorted = sortCollection(circles);
+    return filterRedundant(sorted);
 };
 
 /*
@@ -105,18 +80,25 @@ function overlappingCircles(circles){
  * funtion can be called.
  * 
  */
-function randomPointInCirclesCollection(collection) {
-    var latLng, overlaps, withinCircle, i, l;
-    latLng = rpic.randomPointInCircle(collection[0]);
-    overlaps = overlappingCircles(collection);
-    l = overlaps.length;
+function randomPointInCirclesCollection(circles, isFilteredAndSorted) {
+    var latLng, overlaps, filtered = circles;
 
-    // creates an array of the distances between each 
-    for (i = 0; i < l; i++) {
-        withinCircle = rpicc.point(latLng, overlaps[i]);
-        if(!withinCircle){
-            return randomPointInCirclesCollection();
-        }
+    if(isFilteredAndSorted !== true){
+        // filter out the circles that are redundant
+        overlaps = sortAndFilter(circles);
     }
-    return latLng
+
+    while(filtered.length !== 0) {
+        // find a random point inside the smallest circle
+        latLng = rpic.randomPointInCircle(circles[0]);
+        var filtered = overlaps.filter(circle => rpic.point(latLng, circle));
+    }
+
+    return latLng;
 };
+
+exports.sortCollection = sortCollection;
+exports.filterRedundant = filterRedundant;
+exports.circlesOverlap = circlesOverlap;
+exports.sortAndFilter = sortAndFilter;
+exports.randomPointInCirclesCollection = randomPointInCirclesCollection;

@@ -15,24 +15,28 @@ The Circle object must contain the following:
 
 ````
 var circle = {
-	latitude / lat : integer_between_-90_and_90,
-	longitude / lng : integer_between_-180_and_180
-	id / rad / radius : integer_radius_in_metres
+	latitude : number_between_-90_and_90,
+	longitude : number_between_-180_and_180
+	radius : integer_radius_in_metres
 };
 ````
 
 ## Usage - One Circle
 ````
+var Random = require('random-circles');
 Random.randomPointInCircle(circle_object_as_above);
+
 ````
 ## Usage - Multiple Cirlces
 
 This takes an array of circle objects as defined above.
 
-First, we must set the circles collection. We do this seperately so we can call the random function more than once without setting the collection each time.
+First, we filter and sort the circles. This can be done in 2 ways: 
+
+# Method 1: Filter collection from within:
 
 ````
-Random.setCollection([
+Random.randomPointInCirclesCollection([
 	{
 		lat : lat_of_origin,
 		lng : lng_of_origin,
@@ -42,13 +46,17 @@ Random.setCollection([
 }
 ]);
 ````
-** Don't set the collection directly **
+This method will filter and sort the collection each time a random point is calculated.
 
-You can then call the random function as follows:
+# Method 2: Filter collection first:
+
 ````
-var random_position_in_circle_array = Random.randomPointInCirclesCollection();
+var filtered = Random.filterAndSort(circles_collection);
+
+// Notice the second argument:
+var randomPoint = Random.randomPointInCirclesCollection(filtered, true);
 ````
-This will return a latitude longitude object:
+The value, true, will tell the function not to sort and filter the array itself. This is useful if you want to find multiple random points without changing your circles collection. However, you must remember to use filterAndSort() each time your circles change.
 
 ````
 return_object = {
@@ -71,13 +79,3 @@ See working example at photopunt.com.
 * Error handling
 * Find a better way of creating a random longitude that takes into account variations as you get further north / south.
 * Find a method that avoids using the while function.
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-
-

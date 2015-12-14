@@ -2,7 +2,7 @@
 "use strict";
 
 var expect = require('chai').expect;
-var rpicc = require('../src/randomPointInCircleCollection');
+var rpicc = require('../src/randomPointInCirclesCollection');
 
 describe("Random point in colleciton of circles", function(){
 

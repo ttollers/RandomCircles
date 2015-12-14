@@ -1,5 +1,5 @@
 var randomPointInCircle = require('./randomPointInCircle');
-var randomPointInCircleCollection = require('./randomPointInCircleCollection');
+var randomPointInCirclesCollection = require('./randomPointInCirclesCollection');
 
 exports.randomPointInCircle = randomPointInCircle;
-exports.randomPointInCircleCollection = randomPointInCircleCollection;
+exports.randomPointInCirclesCollection = randomPointInCirclesCollection;

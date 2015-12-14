@@ -81,16 +81,21 @@ function sortAndFilter(circles){
  * 
  */
 function randomPointInCirclesCollection(circles, isFilteredAndSorted) {
-    var latLng, overlaps, filtered = circles;
+    var latLng, overlaps, filtered = [0];
 
     if(isFilteredAndSorted !== true){
         // filter out the circles that are redundant
         overlaps = sortAndFilter(circles);
+    } else {
+        overlaps = circles;
     }
+
+    //TBR use immutable method
+    var origin = overlaps.shift();
 
     while(filtered.length !== 0) {
         // find a random point inside the smallest circle
-        latLng = rpic.randomPointInCircle(circles[0]);
+        latLng = rpic.randomPointInCircle(origin);
         var filtered = overlaps.filter(circle => rpic.point(latLng, circle));
     }
 

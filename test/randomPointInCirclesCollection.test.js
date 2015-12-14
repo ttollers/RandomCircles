@@ -110,7 +110,9 @@ describe("Random point in colleciton of circles", function(){
 
 	describe("randomPointInCirclesCollection", function(){
 		it("creates a random point where all the circles overlap", function(){
+
 			var value = rpicc.randomPointInCirclesCollection(circles);
+			console.log(value);
 			expect(value.latitude).to.be.a("number");
 			expect(value.longitude).to.be.a("number");
 		})
@@ -123,6 +125,37 @@ describe("Random point in colleciton of circles", function(){
 			expect(value.latitude).to.be.a("number");
 			expect(value.longitude).to.be.a("number");
 		})
+
+		it("more test cases", ()=> {
+			var c = [
+				{
+					gameId: 1,
+					lat: 56.16710799649374,
+					latitude: 56.16710799649374,
+					lng: -5.156182078124971,
+					longitude: -5.156182078124971,
+					photo: [],
+					placed: true,
+					rad: 100000,
+					radius: 100000
+				},
+				{
+					gameId: 1,
+					lat: 56.89414435356921,
+					latitude: 56.89414435356921,
+					lng: -3.9916312968749708,
+					longitude: -3.9916312968749708,
+					photo: [],
+					placed: true,
+					rad: 200000,
+					radius: 200000
+				}
+			];
+			var value = rpicc.randomPointInCirclesCollection(c);
+			expect(value.latitude).to.be.a("number");
+			expect(value.longitude).to.be.a("number");
+		})
 	})
+
 
 });

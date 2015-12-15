@@ -155,7 +155,13 @@ describe("Random point in colleciton of circles", function(){
 			expect(value.latitude).to.be.a("number");
 			expect(value.longitude).to.be.a("number");
 		})
+
 	})
 
+	it("handles empty arrays", () => {
+		var value = rpicc.randomPointInCirclesCollection([]);
+		expect(value).to.be.null;
+		expect(value).to.be.null;
+	})
 
 });

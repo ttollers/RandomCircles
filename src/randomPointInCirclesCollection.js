@@ -81,7 +81,7 @@ function sortAndFilter(circles){
  * 
  */
 function randomPointInCirclesCollection(circles, isFilteredAndSorted) {
-    var latLng, overlaps, filtered = [0];
+    var latLng = null, overlaps, filtered = circles;
 
     if(isFilteredAndSorted !== true){
         // filter out the circles that are redundant

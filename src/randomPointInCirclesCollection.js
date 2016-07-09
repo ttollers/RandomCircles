@@ -96,7 +96,7 @@ function randomPointInCirclesCollection(circles, isFilteredAndSorted) {
     while(filtered.length !== 0) {
         // find a random point inside the smallest circle
         latLng = rpic.randomPointInCircle(origin);
-        var filtered = overlaps.filter(circle => rpic.point(latLng, circle));
+        filtered = overlaps.filter(circle => rpic.isInCircle(latLng, circle));
     }
 
     return latLng;

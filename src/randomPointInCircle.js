@@ -19,7 +19,7 @@ var Geo = require('geolib');
  */
 function getBounds(circle){
     return Geo.getBoundsOfDistance(circle, circle.radius);
-};
+}
 
 /*
  *
@@ -30,16 +30,16 @@ function getBounds(circle){
  */
 function random(min, max){
     return Math.random() * (max - min) + min;
-};
+}
 
 /*
  *
  * checks to see if point is within circle. returns true if INSIDE circle
  * 
  */
-function point(point, circle){
+function isInCircle(point, circle){
     return Geo.isPointInCircle(point, circle, circle.radius);
-};
+}
 
 /*
  *
@@ -47,7 +47,7 @@ function point(point, circle){
  * if point is within the circle as the random point could be near the corners.
  * 
  */
-function circle(circle){
+function randomWithinSquare(circle){
     var r_lat, r_lng, bounds;
     bounds = getBounds(circle);
     r_lat = random(bounds[0].latitude, bounds[1].latitude);
@@ -56,7 +56,7 @@ function circle(circle){
         latitude : r_lat,
         longitude : r_lng
     };
-};
+}
 
 /*
  *
@@ -65,15 +65,15 @@ function circle(circle){
  */
 function randomPointInCircle(circle){
     var point = false;
-    while(!point || !this.point(point, circle)){
-        point = this.circle(circle);
+    while(!point || !isInCircle(point, circle)){
+        point = randomWithinSquare(circle);
     }
     return point;
-};
+}
 
 
 exports.getBounds = getBounds;
 exports.random = random;
-exports.point = point;
-exports.circle = circle;
+exports.isInCircle = isInCircle;
+exports.randomWithinSquare = randomWithinSquare;
 exports.randomPointInCircle = randomPointInCircle;

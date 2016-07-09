@@ -1,7 +1,7 @@
 
 var expect = require('chai').expect;
 
-var rc = require('../src/randomPointInCircle')
+var rc = require('../src/randomPointInCircle');
 
 describe("Random point within a circle", function(){
 
@@ -31,20 +31,19 @@ describe("Random point within a circle", function(){
 		})
 	});
 
-	describe("point()", function(){
+	describe("isInCircle()", function(){
 		it("checks that a given point is inside a circle", function(){
-			var value = rc.point({
+			var value = rc.isInCircle({
 				latitude : 52.97,
 				longitude : -2.62
-			},
-			circle);
+			}, circle);
 			expect(value).to.equal(true);
 		});
 	});
 
-	describe("circle()", function(){
+	describe("randomWithinSquare()", function(){
 		it("creates a random point within a circle", function(){
-			var value = rc.circle(circle);
+			var value = rc.randomWithinSquare(circle);
 			expect(value).to.be.ok;
 		})
 	});
@@ -52,6 +51,7 @@ describe("Random point within a circle", function(){
 	describe("randomPointInCircle()", function(){
 		it("creates a random point and verifies that it is within the given circle", function(){
 			var value = rc.randomPointInCircle(circle);
+			console.log(circle, value);
 			expect(value).to.be.an("object");
 		})
 	});

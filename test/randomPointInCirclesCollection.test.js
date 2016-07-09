@@ -106,25 +106,23 @@ describe("Random point in colleciton of circles", function(){
 			var filtered = rpicc.sortAndFilter(circles);
 			expect(filtered.length).to.equal(2);
 		})
-	})
+	});
 
 	describe("randomPointInCirclesCollection", function(){
 		it("creates a random point where all the circles overlap", function(){
 
 			var value = rpicc.randomPointInCirclesCollection(circles);
-			console.log(value);
 			expect(value.latitude).to.be.a("number");
 			expect(value.longitude).to.be.a("number");
-		})
+		});
 
 
 		it("creates a random point exactly as above, but filters and sorts the array outside", function() {
 			var filtered = rpicc.sortAndFilter(circles);
-			console.log(filtered)
 			var value = rpicc.randomPointInCirclesCollection(filtered, true);
 			expect(value.latitude).to.be.a("number");
 			expect(value.longitude).to.be.a("number");
-		})
+		});
 
 		it("more test cases", ()=> {
 			var c = [

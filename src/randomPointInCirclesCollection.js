@@ -62,7 +62,7 @@ function circlesOverlap(circle1, circle2){
         // we do not need this circle as it does not overlap with the smallest (either it is completely outside or the smaller is direcrtly within - think concentric)
         return false;
     }
-};
+}
 
 /*
  *
@@ -72,7 +72,7 @@ function circlesOverlap(circle1, circle2){
 function sortAndFilter(circles){
     var sorted = sortCollection(circles);
     return filterRedundant(sorted);
-};
+}
 
 /*
  *
@@ -100,7 +100,7 @@ function randomPointInCirclesCollection(circles, isFilteredAndSorted) {
     }
 
     return latLng;
-};
+}
 
 exports.sortCollection = sortCollection;
 exports.filterRedundant = filterRedundant;

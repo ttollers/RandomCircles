@@ -10,16 +10,7 @@
 // 
 // TODO allow support for both Geolib AND google maps geometry library.
 //
-var Geo = require('geolib');
-
-/*
- *
- * Returns the square shaped bounds of a circle 
- * 
- */
-function getBounds(circle){
-    return Geo.getBoundsOfDistance(circle, circle.radius);
-}
+const Geo = require('geolib');
 
 /*
  *
@@ -34,24 +25,14 @@ function random(min, max){
 
 /*
  *
- * checks to see if point is within circle. returns true if INSIDE circle
- * 
- */
-function isInCircle(point, circle){
-    return Geo.isPointInCircle(point, circle, circle.radius);
-}
-
-/*
- *
  * finds a random point within BOUNDS of a cirlce. At this point, we do not know
  * if point is within the circle as the random point could be near the corners.
  * 
  */
 function randomWithinSquare(circle){
-    var r_lat, r_lng, bounds;
-    bounds = getBounds(circle);
-    r_lat = random(bounds[0].latitude, bounds[1].latitude);
-    r_lng = random(bounds[1].longitude, bounds[0].longitude);
+    const bounds = Geo.getBoundsOfDistance(circle, circle.radius);
+    const r_lat = random(bounds[0].latitude, bounds[1].latitude);
+    const r_lng = random(bounds[1].longitude, bounds[0].longitude);
     return {
         latitude : r_lat,
         longitude : r_lng
@@ -64,16 +45,13 @@ function randomWithinSquare(circle){
  * 
  */
 function randomPointInCircle(circle){
-    var point = false;
-    while(!point || !isInCircle(point, circle)){
+    let point = false;
+    while(!point || !Geo.isPointInCircle(point, circle, circle.radius)){
         point = randomWithinSquare(circle);
     }
     return point;
 }
 
 
-exports.getBounds = getBounds;
-exports.random = random;
-exports.isInCircle = isInCircle;
 exports.randomWithinSquare = randomWithinSquare;
 exports.randomPointInCircle = randomPointInCircle;

@@ -30,7 +30,7 @@ function sortCollection(circles){
     return circles.sort(function(a, b) {
         return parseFloat(a.radius) - parseFloat(b.radius);
     });
-};
+}
 
 /*
  *
@@ -50,18 +50,10 @@ function filterRedundant(circles) {
  * 
  */
 function circlesOverlap(circle1, circle2){
-    var distance, maxDistance, overlapDistance;
-    distance = Geo.getDistance(circle1,circle2);
-
-    maxDistance = circle1.radius + circle2.radius;
-    overlapDistance = Math.abs(circle1.radius - circle2.radius);
-
-    if (distance >= overlapDistance && distance <= maxDistance) {
-        return true;
-    } else {
-        // we do not need this circle as it does not overlap with the smallest (either it is completely outside or the smaller is direcrtly within - think concentric)
-        return false;
-    }
+    const distance = Geo.getDistance(circle1,circle2);
+    const maxDistance = circle1.radius + circle2.radius;
+    const overlapDistance = Math.abs(circle1.radius - circle2.radius);
+    return distance >= overlapDistance && distance <= maxDistance;
 }
 
 /*
@@ -70,7 +62,7 @@ function circlesOverlap(circle1, circle2){
  * 
  */
 function sortAndFilter(circles){
-    var sorted = sortCollection(circles);
+    const sorted = sortCollection(circles);
     return filterRedundant(sorted);
 }
 
@@ -96,7 +88,7 @@ function randomPointInCirclesCollection(circles, isFilteredAndSorted) {
     while(filtered.length !== 0) {
         // find a random point inside the smallest circle
         latLng = rpic.randomPointInCircle(origin);
-        filtered = overlaps.filter(circle => rpic.isInCircle(latLng, circle));
+        filtered = overlaps.filter(circle => Geo.isPointInCircle(latLng, circle, circle.radius));
     }
 
     return latLng;
